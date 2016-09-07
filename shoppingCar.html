@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
-<table class="table table-bordered">
+<table class="table table-bordered" ng-controller="carCtrl">
     <tr>
         <th><input type="checkbox">全选</th>
         <th>商品</th>
@@ -15,8 +15,13 @@
         <th>小计</th>
         <th>操作</th>
     </tr>
-    <tr>
-        <td></td>
+    <tr ng-repeat="computer in computers">
+        <td><input type="checkbox" ng-model="computer.select"></td>
+        <td>{{computer.productInfo}}</td>
+        <td>{{computer.price}}</td>
+        <td><button>-</button><input type="text" ng-model="computer.count"><button>+</button></td>
+        <td>{{computer.price*computer.count}}</td>
+        <td><button class="btn btn-danger">删除</button></td>
     </tr>
 </table>
 <script src="node_modules/angular/angular.js"></script>
@@ -24,10 +29,15 @@
     var app = angular.module('appModule',[]);
     app.controller('carCtrl',['$scope',function ($scope) {
         $scope.computers = [
-            {select:false,
-             productInfo:'华硕(ASUS) R557LI 15.6英寸笔记本电脑(i5-5200U 4G 500G 2G独显 黑 LED背光)',
+            {select:true,
+             productInfo:'华硕(ASUS)',
              price:3499,
              count:1,
+            },
+            {select:false,
+                productInfo:'苹果mini',
+                price:3588,
+                count:10,
             }
         ]
     }])
