@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div ng-controller="firstCtrl">
+    {{name}}
+</div>
+<div ng-controller="secondCtrl">
+    {{name}}
+</div>
+<div ng-controller="thirdCtrl">
+    {{name}}
+</div>
+<script src="node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //将公有的属性例如$rootScope可以提取出来
+    app.run(['$rootScope',function ($rootScope) {
+        $rootScope.name = 'zfpxhello';
+    }]);
+    /*app.run(function ($rootScope) {
+    });//在angular一执行的时候就将数据放置进去*/
+    app.controller('firstCtrl',function ($scope) {
+        //可以设置在全局下使用$rootScope
+        //$scope.name = 'zfpx000';
+    });
+    //用数组的方式进行映射 防止压缩
+    app.controller("secondCtrl",["$scope","$rootScope",function(a,b){a.name="zfpx2"}]);
+    //app.controller("secondCtrl",function(a){a.name="zfpx111"});
+    app.controller('thirdCtrl',function ($scope) {
+        //$scope.name = 'zfpx222';
+    });
+
+</script>
+</body>
+</html>

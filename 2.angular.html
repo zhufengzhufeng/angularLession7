@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="zfModule">
+<html lang="en" ng-app="appModule">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -7,11 +7,13 @@
 <body>
 
     <div ng-controller="firstCtrl">
+        <span id="oSpan"></span>
         {{a}} <input type="text" ng-model="a">
+        <div ng-controller="secondCtrl">
+            {{a}}
+        </div>
     </div>
-    <div ng-controller="secondCtrl">
-        {{a}}
-    </div>
+
     <!--
         ng-app="zfModule" 告诉angular当前以哪个模块来启动
     -->
@@ -21,16 +23,19 @@
         //param1 模块的名字
         //param2 依赖的模块 数组形式(如果没有则是空数组形式)
         //param3 配置
-        var app = angular.module('zfModule',[]);// 创建模块，可以返回一个当前模块
+        var app = angular.module('appModule',[]);// 创建模块，可以返回一个当前模块
         //MVVM   angular中要通过控制器进行调度数据
         //param1 控制器的名字
         //param2 是回调函数  当我们拥有了一个控制器后，会送你个$scope
         app.controller('firstCtrl',function ($scope) {
             //$scope作用域，给当前控制器权限 scope就是viewModel
+            //$scope.a = {name:'age'};
             $scope.a = 'zfpx';
+            //以后的dom操作directive中link
+            //控制器可以嵌套 ，并且父控制器，可以让子控制器继承
         });
         app.controller('secondCtrl',function ($scope) {
-            $scope.a = 'zfpx2';
+            //$scope.a = 'zfpx2';
         });
         //alert(app === angular.module('zfModule'));//true
 
