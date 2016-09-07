@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="node_modules/angular/angular-csp.css">
+</head>
+<body>
+<div ng-controller="firstCtrl">
+    <div ng-bind-html="html"></div>
+    <ul ng-cloak>
+        <!--book代表的是数组中的每一项 ,只要遍历数组必须要增加track by-->
+        <li ng-repeat="book in books track by $index">
+            {{$index}}{{book}}
+        </li>
+    </ul>
+</div>
+<script src="node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('firstCtrl',function($scope,$sce){
+        $scope.html = '<h1>Hello</h1>';
+        //需要一个$sce,将html解析出可以解析的html
+        $scope.html =  $sce.trustAsHtml('<h1>Hello</h1>');
+
+        //ng-repeat 将数据循环出来进行绑定
+        //$scope.books = [{name:'nodeJs'},{name:'reactJs'},{name:'vueJs'},{name:'angularJs'}];
+        $scope.books = ['白色','粉色','白色']
+    });
+</script>
+</body>
+</html>
