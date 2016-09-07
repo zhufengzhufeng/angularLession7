@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href='node_modules/angular/angular-csp.css'>
+</head>
+<body >
+    <!--filter map find findeIndex forEach indexOf-->
+    <script>
+        var arr = [{name:1},{name:2},{name:3}];
+        //如果为true则是留下的，去掉的就为false
+         arr = arr.filter(function (item) {
+            return item.name!=2 //不等于2的时候返回的是1，3
+        });
+        console.log(arr);
+
+    </script>
+</body>
+</body>
+</html>

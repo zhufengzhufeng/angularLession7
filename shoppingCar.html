@@ -8,7 +8,7 @@
 <body>
 <table class="table table-bordered" ng-controller="carCtrl">
     <tr>
-        <th><input type="checkbox">全选</th>
+        <th><input type="checkbox" ng-model="flag" ng-change="checkAll()">全选</th>
         <th>商品</th>
         <th>单价</th>
         <th>数量</th>
@@ -19,28 +19,60 @@
         <td><input type="checkbox" ng-model="computer.select"></td>
         <td>{{computer.productInfo}}</td>
         <td>{{computer.price}}</td>
-        <td><button>-</button><input type="text" ng-model="computer.count"><button>+</button></td>
+        <td>
+            <button ng-click="minus(computer)" ng-disabled="computer.count==1">-</button>
+            <input type="text" ng-model="computer.count">
+            <button ng-click="add(computer)">+</button>
+        </td>
         <td>{{computer.price*computer.count}}</td>
-        <td><button class="btn btn-danger">删除</button></td>
+        <td><button class="btn btn-danger" ng-click="remove(computer)">删除</button></td>
     </tr>
 </table>
 <script src="node_modules/angular/angular.js"></script>
 <script>
     var app = angular.module('appModule',[]);
     app.controller('carCtrl',['$scope',function ($scope) {
+        $scope.flag = false;
+        $scope.checkAll = function () {
+            alert($scope.flag)
+        };
         $scope.computers = [
-            {select:true,
-             productInfo:'华硕(ASUS)',
-             price:3499,
-             count:1,
+            {
+                 select:true,
+                 productInfo:'华硕(ASUS)',
+                 price:3499,
+                 count:1,
             },
-            {select:false,
+            {
+                select:false,
                 productInfo:'苹果mini',
                 price:3588,
                 count:10,
             }
-        ]
-    }])
+        ];
+        //增加和减少
+        $scope.minus = function (curComputer) {
+            curComputer.count--;
+        };
+        $scope.add = function (curComputer) {
+            curComputer.count++;
+        }
+        //删除功能
+        $scope.remove = function (curComputer) {
+            //可以使用数组中filter方法
+            $scope.computers = $scope.computers.filter(function (item) {
+                return item!=curComputer; //如果匹配到了则不要，需要返回false
+            });
+        }
+    }]);
 </script>
+
+
+
+<!--
+    我们想添加事件 需要在原有的事件前添加ng-click
+
+
+-->
 </body>
 </html>
