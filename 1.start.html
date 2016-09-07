@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href='node_modules/angular/angular-csp.css'>
+</head>
+<body >
+<input type="text" ng-model="name">
+<input type="text" ng-model="age">
+{{name?name:"zfpx"}}
+<div ng-bind-template="{{name}} {{age}}"></div>
+
+<div ng-cloak>
+    {{name}}
+    <div>{{age}}
+        <div>{{name}}</div>
+    </div>
+</div>
+
+
+<script src="node_modules/angular/angular.js"></script>
+<script>
+    //console.log(angular); //对象提供了angular中很多的方法
+    //要启动angular 需要告诉当前的页面在哪里启动，一般我们会选择最大的标签为angular所初始化的位置
+    //以ng开头的都是angular中的自带指令
+    //ng-app 指定angular在什么位置启动，并且送你一个$rootScope 根作用域-> window
+    //ng-app只能写一个
+
+    //双向绑定是要将视图和模型进行绑定  通过ng-model去绑定我们的模型,如果数据不存在就是声明，在当前作用域下声明
+    //通过数据绑定在视图上 使用{{}}取值
+
+
+    //表达式
+    //1. 表达式可以用来进行做简单的运算 还可以用作三元表达式运算
+    //2. ng-bind用法和{{}}一致 并且可以防止闪烁问题
+    //3. ng-bind-template:绑定模板ng-bind-template="{{}} {{}}"
+    //4. ng-cloak是绝决闪烁问题的最好方法，原理就是选择带有ng-clock这个标签让其隐藏，等angular加载完后，在把ng-clock这个属性移除掉
+</script>
+</body>
+</html>

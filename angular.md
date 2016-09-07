@@ -1,9 +1,9 @@
-# hello
-- 1
-- 2
-- 3
+## 打开webstorm命令行
 ```
-console.log('hello')
+view -> toolwindows -> terminal
 ```
-## hello
-### hello
+## 安装angular
+- 通过@符号指定版本
+```
+npm install angular
+```
