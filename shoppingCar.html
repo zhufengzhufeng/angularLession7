@@ -16,7 +16,7 @@
         <th>操作</th>
     </tr>
     <tr ng-repeat="computer in computers">
-        <td><input type="checkbox" ng-model="computer.select"></td>
+        <td><input type="checkbox" ng-model="computer.select" ng-change="checkOne()"></td>
         <td>{{computer.productInfo}}</td>
         <td>{{computer.price}}</td>
         <td>
@@ -27,18 +27,27 @@
         <td>{{computer.price*computer.count}}</td>
         <td><button class="btn btn-danger" ng-click="remove(computer)">删除</button></td>
     </tr>
+    <tr>
+        <td colspan="6">总价{{total()}}<button ng-click="removeSelect()">删除选中商品</button>
+        选中{{count()}}个商品
+            折扣 <select ng-model="discount" ng-options="val as val for val in selectVal" ng-change="changeDiscount()"></select>
+            折后价{{discountTotal}}
+        </td>
+
+    </tr>
 </table>
 <script src="node_modules/angular/angular.js"></script>
 <script>
     var app = angular.module('appModule',[]);
     app.controller('carCtrl',['$scope',function ($scope) {
-        $scope.flag = false;
-        $scope.checkAll = function () {
-            alert($scope.flag)
+        //添加折扣
+        $scope.discount = 10;
+        $scope.changeDiscount = function () {
+            $scope.discountTotal = $scope.total()*$scope.discount/10
         };
         $scope.computers = [
             {
-                 select:true,
+                 select:false,
                  productInfo:'华硕(ASUS)',
                  price:3499,
                  count:1,
@@ -64,7 +73,58 @@
                 return item!=curComputer; //如果匹配到了则不要，需要返回false
             });
         }
+
+
+        //全选全部选
+        $scope.flag = false;
+        $scope.checkAll = function () {
+            //当前所有select状态根据全选全不选来判断
+            $scope.computers.forEach(function (item) {
+                item.select =  $scope.flag;
+            });
+        };
+        $scope.checkOne = function () {
+            var flag = true; //默认当前都选中
+            $scope.computers.forEach(function (item) {
+                if(!item.select){ //如果有一个没选中，就为false
+                    flag = false;
+                }
+            });
+            $scope.flag = flag;
+        };
+        //计算总价格
+        $scope.total = function () {
+            //把每一个商品的小计获取出来进行累加
+            var sum = 0;
+            $scope.computers.forEach(function (item) {
+                sum += item.count*item.price;
+            });
+            console.log(sum);
+            return sum;
+
+        };
+        //删除选的商品
+        $scope.removeSelect = function () {
+            $scope.computers.forEach(function (item) {
+                if(item.select){
+                    $scope.remove(item);
+                }
+            });
+        };
+        //选中多少个商品
+        $scope.count =function(){
+            var count = 0;
+            $scope.computers.forEach(function (item) {
+                if(item.select){
+                   count++;
+                }
+            });
+            return count;
+        }
+        $scope.selectVal = [1,2,3,4,5,6,7,8,9,10]
+
     }]);
+    //脏值检查 digest 至少查两次 双绑定
 </script>
 
 
@@ -72,7 +132,9 @@
 <!--
     我们想添加事件 需要在原有的事件前添加ng-click
 
-
+    select 提供了一个语法 as for in
+    把什么值作为value  什么值 作为用户课件  那当前的那一项在整个数组里去遍历
+   val as  val for val in selectVal
 -->
 </body>
 </html>
