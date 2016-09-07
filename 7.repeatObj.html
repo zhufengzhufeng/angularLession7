@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<ul ng-controller="ctrl">
+    <!--对象里默认取出的是value值-->
+    <li ng-repeat="(key,sch) in school">
+        {{key}}:{{sch}}:{{$index}}
+    </li>
+</ul>
+<script src="node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('ctrl',function ($scope) {
+        $scope.school = {
+            name:'zfpx',
+            age:'8',
+            address:'回龙观'
+        }
+    });
+</script>
+</body>
+</html>

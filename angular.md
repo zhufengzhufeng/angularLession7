@@ -7,3 +7,5 @@ view -> toolwindows -> terminal
 ```
 npm install angular
 ```
+## 设置模板
+file > settings >livetempate > + liveTmplate > 输入快捷键 > 输入快捷键对应的内容 > define > html类型

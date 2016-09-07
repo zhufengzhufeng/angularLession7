@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<table class="table table-bordered">
+    <tr>
+        <th><input type="checkbox">全选</th>
+        <th>商品</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>小计</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+</table>
+<script src="node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('carCtrl',['$scope',function ($scope) {
+        $scope.computers = [
+            {select:false,
+             productInfo:'华硕(ASUS) R557LI 15.6英寸笔记本电脑(i5-5200U 4G 500G 2G独显 黑 LED背光)',
+             price:3499,
+             count:1,
+            }
+        ]
+    }])
+</script>
+</body>
+</html>

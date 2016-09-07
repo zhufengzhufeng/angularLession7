@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<!--
+<ul>
+        <li ng-repeat="arr in arrs track by $index">
+            {{arr}}{{$index}}
+            {{$even}} {{$odd}} {{$first}} {{$last}}
+        </li>
+    </ul>
+-->
+<div ng-controller="ctrl">
+    {{arr}}
+    <ul>
+    <!--索引和当前项，每次遍历都会产生一个新的作用域-->
+    <li ng-repeat="(key,arr) in arrs">
+        {{arr.name}}
+        <ul>
+            <li ng-repeat=" (child,ty) in arr.type track by $index">
+                {{key}} {{child}} {{ty}}
+            </li>
+        </ul>
+    </li>
+</ul>
+</div>
+
+<script src="node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('ctrl',function ($scope) {
+        $scope.arrs = [
+            {name:'iphone',type:['iphone6','iphone7','6s']},
+            {name:'mi',type:['note','1','2']},
+            {name:'sanxing',type:['Galaxy']}
+        ]
+    });
+</script>
+</body>
+</html>
