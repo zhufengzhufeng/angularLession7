@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .show{
+            display: block;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body ng-controller="myCtrl">
+<div ng-click="flag=!flag">{{flag?'显示':'隐藏'}}</div>
+<div ng-if="flag">
+    content
+</div>
+<ul ng-if="arr.length">
+    <li ng-repeat="a in arr">
+    {{a}}
+</li>
+</ul>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('myCtrl',['$scope',function ($scope) {
+        $scope.flag = true;
+        $scope.arr =[];
+        //angularjs给我们提供了ng的方法，如果是简单的隐藏和显示，使用ng-show  ng-hide即可
+        //ng-if
+        //什么时候使用ng-if什么时候使用ng-show/hide
+        //如果频繁切换使用ng-show/ng-hide  如果一开始就能确定是否存在则用ng-if
+        //如果ng-show条件不成立，里面的angular代码仍然会执行
+        //ng-show初始渲染消耗性能，ng-if频繁切换消耗性能
+        //判断数组是否存在需要.length
+    }])
+</script>
+</body>
+</html>

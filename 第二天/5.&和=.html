@@ -7,21 +7,21 @@
 <body ng-controller="myCtrl">
 姓名 {{name}}
 <input type="text" ng-model="home">
-<my name="{{name}}" home="home" s="say()"></my>
+<my name="{{name}}" home="home" s="say(id)"></my>
 <script src="../node_modules/angular/angular.js"></script>
 <script>
     var app = angular.module('appModule',[]);
     app.controller('myCtrl',['$scope',function ($scope) {
         $scope.home = 'Harbin';
         $scope.name = 'Speedly';
-        $scope.say = function () {
-            alert('say')
+        $scope.say = function (who) {
+            alert(who)
         }
     }]);
     app.directive('my',function () {
         return {
             restrict:'E',
-            template:'<div>{{name}}<input type="text" ng-model="home"><button ng-click="w()"></button></div>',
+            template:'<div>{{name}}<input type="text" ng-model="home"><button ng-click="w({id:home})"></button></div>',
             //scope:true,//创建作用域 并且可以继承控制器上的属性
             scope:{
                 home:'=',//相当于$scope.cc =  home
@@ -38,6 +38,7 @@
     //{{}}取值的方式是字符串类型
     //通过@符号 引用的是字符串只是单向绑定，父级影响子，子不能影响父
     //= 是在指令中引用的是变量，修改变量后，会导致当前作用域上的变量发生更改，所以是双向绑定
+    //& 符号用来传递方法，()内的参数以对象方式传递，内容会执行当前指令上属性对应的方法，里面的参数要和key值相同;
 </script>
 </body>
 </html>
