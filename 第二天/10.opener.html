@@ -12,6 +12,10 @@
 <group>
     <open head="这是第一个组">open打开</open>
     <open head="这是第二个组">open打开</open>
+</group>
+<group>
+    <open head="这是第一个组">open打开</open>
+    <open head="这是第二个组">open打开</open>
     <open head="这是第三个组">open打开</open>
 </group>
 <script src="../node_modules/angular/angular.js"></script>
@@ -25,22 +29,46 @@
     *
     *
     * */
-
-
-
-
     var app = angular.module('appModule',[]);
+    app.directive('group',function () {
+        return {
+            controller:function ($scope) {
+                var childList = [];
+                //用来接收儿子的作用域
+                this.add = function (scope) {
+                    childList.push(scope)
+                }
+                this.close = function (scope) {
+                    //当前点击的儿子会告诉父亲是哪一个点击的,其他人父亲要将其关闭
+                    childList.forEach(function (item) {
+                        if(item!=scope){//除了自己其他人作用域上的flag应该都为false
+                            item.flag = false;
+                        };
+                    })
+                }
+            }
+        }
+    });
+
+
     app.directive('open',function () {
         return {
+            require:'^group',
             transclude:true,
             templateUrl:'tmpl/open.html',
             scope:{
                 head:'@'
             },
-            link:function (scope) {
+            link:function (scope,element,attrs,groupCtrl) {
+                //将自己的家给父亲让父亲进行管理
+                groupCtrl.add(scope);
+
+
+
                 scope.flag = false;
                 scope.show = function () {
-                    scope.flag = !scope.flag
+                    scope.flag = !scope.flag;
+                    groupCtrl.close(scope)
                 }
             }
         }
