@@ -14,7 +14,7 @@
 </head>
 <body ng-controller="myCtrl">
 <div ng-click="flag=!flag">{{flag?'显示':'隐藏'}}</div>
-<div ng-if="flag">
+<div ng-show="flag">
     content
 </div>
 <ul ng-if="arr.length">
