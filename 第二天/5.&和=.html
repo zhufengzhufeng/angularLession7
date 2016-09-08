@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body ng-controller="myCtrl">
+姓名 {{name}}
+<input type="text" ng-model="home">
+<my name="{{name}}" home="home" s="say()"></my>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('myCtrl',['$scope',function ($scope) {
+        $scope.home = 'Harbin';
+        $scope.name = 'Speedly';
+        $scope.say = function () {
+            alert('say')
+        }
+    }]);
+    app.directive('my',function () {
+        return {
+            restrict:'E',
+            template:'<div>{{name}}<input type="text" ng-model="home"><button ng-click="w()"></button></div>',
+            //scope:true,//创建作用域 并且可以继承控制器上的属性
+            scope:{
+                home:'=',//相当于$scope.cc =  home
+                name:'@', //@引用的是字符串
+                w:'&s'
+            },//是完全断绝关系，不会再有牵扯
+            /*link:function (scope,element,attrs) {
+                scope.home = attrs['home'];
+                scope.name = attrs['name'];
+            }*/
+
+        }
+    });
+    //{{}}取值的方式是字符串类型
+    //通过@符号 引用的是字符串只是单向绑定，父级影响子，子不能影响父
+    //= 是在指令中引用的是变量，修改变量后，会导致当前作用域上的变量发生更改，所以是双向绑定
+</script>
+</body>
+</html>
