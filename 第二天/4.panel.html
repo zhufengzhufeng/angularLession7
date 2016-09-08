@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<my-panel title="指令的详解">这是文章的内容</my-panel>
+<my-panel title="控制器的使用">这是文章的内容1</my-panel>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.directive('myPanel',function () {
+        return {
+            //使用连接的方式引入进来
+            templateUrl:'tmpl/panel.html',
+            transclude:true,//将指令中的内容先保存起来，他会寻找带有ng-transclude的标签将内容插入进去，并且ng-transclude会产生作用域
+            link:function (scope,element,attrs) {
+                //在当前作用域下声明一个title变量，存储attr值
+                scope.title = attrs["title"]
+            },
+            //创建独立作用域，将数据保存在自己作用域下
+            //scope:true,//还要父亲
+            scope:{}  //这样写，会断绝所有关系
+        }
+    })
+    //指令和控制器的交互，要将控制器的数据绑定在我们的指令中
+</script>
+</body>
+</html>
