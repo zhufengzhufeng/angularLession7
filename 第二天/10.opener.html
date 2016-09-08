@@ -20,7 +20,6 @@
 </group>
 <script src="../node_modules/angular/angular.js"></script>
 <script>
-
     /*
     * 1.增加表示 表示这几个open是一组的,增加group属性
     * 2.这三个open标签将自己的作用域交给父亲管理
@@ -33,11 +32,11 @@
     app.directive('group',function () {
         return {
             controller:function ($scope) {
-                var childList = [];
+                var childList = [];//所用open的作用域
                 //用来接收儿子的作用域
                 this.add = function (scope) {
                     childList.push(scope)
-                }
+                };
                 this.close = function (scope) {
                     //当前点击的儿子会告诉父亲是哪一个点击的,其他人父亲要将其关闭
                     childList.forEach(function (item) {
@@ -49,8 +48,6 @@
             }
         }
     });
-
-
     app.directive('open',function () {
         return {
             require:'^group',
@@ -62,13 +59,11 @@
             link:function (scope,element,attrs,groupCtrl) {
                 //将自己的家给父亲让父亲进行管理
                 groupCtrl.add(scope);
-
-
-
                 scope.flag = false;
                 scope.show = function () {
                     scope.flag = !scope.flag;
-                    groupCtrl.close(scope)
+                    //告诉父亲当前点击的作用域是我，其他的你都帮我关闭掉
+                    groupCtrl.close(scope);
                 }
             }
         }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myCtrl">
+<!--
+<ul>
+    orderBy 第一个参数是根据那个属性值进行排序
+        如果为true的时候则倒序
+    <li><button ng-click="flag=!flag">排序</button></li>
+    <li ng-repeat="d in data | orderBy:'price':flag">
+        {{d.name}}    {{d.price}}
+    </li>
+</ul>
+-->
+<!--延迟查询-->
+<!--<input type="text" ng-model="query " ng-model-options="{debounce:500}">-->
+<!--失去焦点的时候触发-->
+<!--<input type="text" ng-model="query " ng-model-options="{updateOn:'blur'}">-->
+
+
+
+{{'hello' |  capitalize:2}}
+{{'123' | uppercase}}
+{{a}}
+<ul>
+    <!--只对价格进行查询-->
+    <li ng-repeat="d in data | filter:{price:query}">
+        {{d.name}}    {{d.price}}
+    </li>
+</ul>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //在过滤器中使用angular自带的过滤器
+    app.filter('capitalize',function (uppercaseFilter) {
+        //uppercaseFilter在原有的过滤器后加上Filter属性
+        return function (input,start) {
+            //input代表要过滤的内容
+            //start表示传入的值
+            //返回的内容为最终显示在页面的内容
+            return uppercaseFilter(input.slice(0,start))+input.slice(start)
+        }
+    });
+    app.controller('myCtrl',['$scope','uppercaseFilter',function ($scope,uppercaseFilter) {
+        $scope.data = [
+            {name:'华硕3',price:3599},
+            {name:'apple3',price:9888},
+            {name:'dell3',price:4999},
+            {name:'lenovo3',price:3999},
+            {name:'外星人3',price:20000}
+        ];
+        $scope.flag = false;
+        $scope.a =uppercaseFilter('aaaaaaaa');
+    }])
+</script>
+</body>
+</html>
