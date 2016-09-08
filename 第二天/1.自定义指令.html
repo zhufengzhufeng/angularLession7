@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<hello name="3"></hello>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+    //module  model ng-repeat
+    //指令的特点
+    //1.不要使用ng开头
+    //2.指令不依赖于控制器的，可以单独使用
+    //3.指令也是通过模块进行创建的
+    //4.指令名字margin-top  marginTop, 如果带-要转化成驼峰命名法。
+
+
+    //指令一共有两类，一类叫做装饰型指令，一类叫做组件式指令
+    var app = angular.module('appModule',[]);
+    //通过模块进行创建指令
+    //param1 指令的名字
+    //param2 函数
+    app.directive('hello',function () {
+        return {
+            //叫做模板，就是把响应的指令转换成一些内容，默认为插入到指令中
+            template:`
+                <div>
+                    <span><a href="">你好</a></span>
+                </div>
+            `,
+            //scope表示当前的作用域
+            //element是表示当前的元素对象 jq对象
+            //指令上的属性
+            //链接函数  连接scope和视图的
+            link:function (scope,element,attrs) {
+                console.log(scope);
+                console.log(element);
+                console.log(attrs);
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
