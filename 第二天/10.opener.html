@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .title{width: 100px;line-height:30px;background: blue;color: #fff}
+        .content{width: 100px;background: red;height: 100px}
+    </style>
+</head>
+<body>
+<group>
+    <open head="这是第一个组">open打开</open>
+    <open head="这是第二个组">open打开</open>
+    <open head="这是第三个组">open打开</open>
+</group>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+
+    /*
+    * 1.增加表示 表示这几个open是一组的,增加group属性
+    * 2.这三个open标签将自己的作用域交给父亲管理
+    * 3.当点击自己的时候，告诉父亲将其他人的都关掉 让父亲把其余人的作用域上的flag属性变为false
+    *
+    *
+    *
+    * */
+
+
+
+
+    var app = angular.module('appModule',[]);
+    app.directive('open',function () {
+        return {
+            transclude:true,
+            templateUrl:'tmpl/open.html',
+            scope:{
+                head:'@'
+            },
+            link:function (scope) {
+                scope.flag = false;
+                scope.show = function () {
+                    scope.flag = !scope.flag
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

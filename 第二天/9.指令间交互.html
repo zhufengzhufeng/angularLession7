@@ -21,6 +21,7 @@
                 //给当前实例上增加一个方法
                 this.add = function (kinds) {
                     $scope.arr.push(kinds);
+                    console.log($scope.arr);
                 };
             },
             link:function (scope,element,attrs) {
