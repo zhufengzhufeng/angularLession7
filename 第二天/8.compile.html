@@ -17,7 +17,7 @@
             template:'<p>hello</p>',
             //在链接函数之前先要编译模板，在讲数据和视图进行绑定
             compile:function (element,attrs) {
-                var times = attrs['time'];
+                var times = attrs['time'];//times默认为字符串类型
                 var child = element.children();
                 for(var i = 0 ;i < times-1; i++){
                     //克隆扔到我们的div中

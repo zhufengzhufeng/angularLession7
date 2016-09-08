@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<girl love-money love-cry>xxx</girl>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+    /*
+    * 当前的品质都是依赖于女生这个指令
+    *
+    * */
+    var app = angular.module('appModule',[]);
+    app.directive('girl',function () {
+        return {
+            controller:function ($scope) {
+                //为了让别人依赖于它 ，当前girl指令需要一个控制器
+                $scope.arr = [];
+                //给当前实例上增加一个方法
+                this.add = function (kinds) {
+                    $scope.arr.push(kinds);
+                };
+            },
+            link:function (scope,element,attrs) {
+                //给girl元素添加事件，弹出自己的品质
+                element.on('click',function () {
+                    alert(scope.arr);
+                })
+            }
+        }
+    });
+    app.directive('loveMoney',function () {
+        return {
+            //当前指令是需要girl的
+            //require:'girl', //需要当前的指令的上的girl，
+            require:'^girl', //需要当前的指令的上的girl，
+            link:function (scope,element,attrs,girlCtrl) {
+                //实例调用此方法
+                girlCtrl.add('loveMoney');
+            }
+        }
+    });
+    app.directive('loveCry',function () {
+        return {
+            require:'girl',
+            link:function (scope,element,attrs,girlCtrl) {
+                girlCtrl.add('loveCry');
+            }
+        }
+    })
+</script>
+</body>
+</html>
