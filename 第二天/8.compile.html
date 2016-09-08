@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--编译-->
+<div time="10">
+
+</div>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.directive('time',function () {
+        return {
+            template:'<p>hello</p>',
+            //在链接函数之前先要编译模板，在讲数据和视图进行绑定
+            compile:function (element,attrs) {
+                var times = attrs['time'];
+                var child = element.children();
+                for(var i = 0 ;i < times-1; i++){
+                    //克隆扔到我们的div中
+                    element.append(child.clone());
+                }
+                return function (scope,element,attrs) {
+                    //当compile执行完后会返回link函数，原有的link函数不执行
+                    console.log('link函数');
+                }
+            },
+            link:function () {
+                console.log(10000);
+            }
+        }
+    })
+</script>
+</body>
+</html>
