@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="computed1"></div>
+<div ng-controller="computed2"></div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.run(function (my) { //所有的服务都可以放在run方法中，只有provider可配置（可以修改）
+        my.age = 100;
+   });
+   app.factory('my',function () {
+            return  {
+                '+': (a,b)=>{return this.currency+(a+b);},
+                '-': (a,b)=>{return this.currency+(a-b);},
+                '*': (a,b)=>{return this.currency+(a*b);},
+                '/': (a,b)=>{return this.currency+(a/b);}
+            }
+    });
+    app.controller('computed1',function ($scope,my) {
+    })
+    app.controller('computed2',function ($scope,my) {
+        console.log(my.age);
+    })
+</script>
+</body>
+</html>

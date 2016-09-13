@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div ng-controller="parentCtrl">
+    父亲<input type="text" ng-model="parent">
+    <div ng-controller="middleCtrl">
+        中间<input type="text" ng-model="middle">
+        <button ng-click="up()">向上</button>
+        <button ng-click="down()">向下</button>
+        <div ng-controller="childCtrl">
+            儿子<input type="text" ng-model="child">
+        </div>
+    </div>
+</div>
+
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('parentCtrl',function ($scope) {
+        $scope.$on('向上',function (e,data) {
+            $scope.parent = data;
+        })
+    });
+    app.controller('middleCtrl',function ($scope) {
+        $scope.down = function () {
+            //广播事件broadcast
+            $scope.$broadcast('向下',$scope.middle)
+        };
+        $scope.$on('向上',function () {
+            alert('我点了向上')
+        });
+        $scope.$on('向下',function () {
+            alert('我点了向下')
+        });
+        $scope.up = function () {
+            //发射事件 $emit
+            $scope.$emit('向上',$scope.middle)
+        }
+    });
+    app.controller('childCtrl',function ($scope) {
+         //监听事件
+         $scope.$on('向下',function (e,data) {
+             //data 就是我们接收到的数据
+             $scope.child = data;
+         })
+    });
+    //控制器不要复用。控制器中如何共享数据$rootScope
+    //通过事件来传递消息
+
+
+    //$broadcast $emit $on 不管向上向下 自己都能监听到内容
+</script>
+</body>
+</html>

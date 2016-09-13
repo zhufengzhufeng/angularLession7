@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="computed1"></div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.config(function ($provide) {
+        //参数1 要装饰的内容
+        $provide.decorator('$log',function ($delegate) { //代理。我们可以将这个代理函数包装好送回去
+            var log = $delegate.log;
+            $delegate.log = function () {
+                //获取当前的形参
+                var args = Array.of(...arguments);
+                args.unshift(new Date());
+                log.apply(null,args);
+            };
+            return $delegate;//更改后 将原内容，送回去
+        });
+    });
+
+
+    app.factory('my',function () {
+            return  {
+                '+': (a,b)=>{return this.currency+(a+b);},
+                '-': (a,b)=>{return this.currency+(a-b);},
+                '*': (a,b)=>{return this.currency+(a*b);},
+                '/': (a,b)=>{return this.currency+(a/b);}
+            }
+    });
+    app.controller('computed1',function ($scope,my,$log) {
+        //$log是angular给我们提供的一个服务，
+        $log.log('hello','zfpx');
+        //装饰的好处在圆基础上,增加功能，修改angular自带的服务，装饰我们写好的
+    });
+
+
+    //provider可配置  当注入后会默认调用$get方法  仅仅只有provider可配置
+    //factory 返回$get 执行后的函数
+    //service 实例化函数，将实例注入到控制器中
+    //value key,value
+    //constant key,value 但是可以配置 可以增加属性
+
+    //decorator 通过配置函数中的$provide 进行装饰，可扩展已有的服务
+</script>
+</body>
+</html>

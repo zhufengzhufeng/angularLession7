@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .back{
+            background: red;
+        }
+        .size{
+            font-size: 40px;
+        }
+        .linear{
+            background: -webkit-linear-gradient(top,blue,red);
+        }
+    </style>
+</head>
+<body ng-controller="ctrl">
+<div class="{{age}} {{name}}">angular baby</div>
+<!--适合两种情况 静态放在class 和数据有关的放在ng-class中-->
+<div class="linear" ng-class="{true:'back',false:'size'}[flag]">react MM</div>
+<!--可以直接取用动态的数据-->
+<div ng-class="age">angular baby</div>
+<!--根据是否使用来增加属性-->
+<div ng-class="{size:true,back:false,linear:true}" class="back" >hello baby</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('ctrl',function ($scope) {
+        $scope.age = 'back';
+        /*$scope.name = 'size'*/
+        $scope.flag = false
+    });
+    //动态的数据 高于我们自己写的样式
+</script>
+</body>
+</html>
