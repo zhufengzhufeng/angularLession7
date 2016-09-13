@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="myCtrl" ng-if="flag">
+    <input type="text" ng-model="name">
+    {{name}}
+    <input type="text" ng-model="age">
+    <button ng-click="remove()">销毁吧</button>
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //apply和watch
+    //watch监控观察
+    //ng-model的实现原理就是监控数据的变化  脏值检查
+    app.run(function ($rootScope) {
+        $rootScope.flag = true;
+        $rootScope.remove = function () {
+            $rootScope.flag = false;
+        }
+    });
+    app.controller('myCtrl',function ($scope,$timeout,$interval) {
+        $scope.name = 100;
+        console.log($scope);
+        //监控scope上的数据的变话
+        $scope.$watch('name',function (newVal,oldVal) {
+            console.log(newVal,oldVal);
+        });
+        //只要页面数据发生变化就会触发第一个函数
+        $scope.$watch(function () {
+            //会将$scope.name的新值和旧值传递到第二个函数中
+            return $scope.name+$scope.age
+        },function(newVal,oldVal){
+            console.log(newVal,oldVal);
+        });
+        //ng-change和watch的区别
+        //一个事件触发执行，另一个是监控数据的变化
+
+        //$apply 通知视图
+        //setTimeout方法不是angular自带的方法，不会触发视图的更新
+        //angular自带的方法会默认调用$apply
+        setTimeout(function () {
+            //$scope.$apply();
+            /*$scope.$apply(function () {
+                $scope.name = 200;
+            });*/
+        },5000);
+        var timer = $interval(function () {
+            $scope.name ++;
+            //$scope.$apply();//如果使用的就是angular的方法，就不需要再手动调用apply方法，否则会报错
+        },1000);
+        //取消定时器
+        //$interval.cancel(timer);
+        //angular 帮我们封装了两个服务 $timeout $interval,使用服务时要注入服务，服务特点，就是将公有方法进行抽取，并且服务是单例的
+
+        //在控制器销毁的时候清除定时器,监听控制的销毁
+        $scope.$on('$destroy',function () {
+            console.log('当前作用域销毁了');
+            $interval.cancel(timer);//在作用域销毁后千万别忘了，将唯一的留存都删除掉
+        });
+    });
+</script>
+</body>
+</html>

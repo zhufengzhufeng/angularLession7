@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="myCtrl as vm">
+    <input type="text" ng-model="vm.name">
+    {{vm.name}}
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //apply和watch
+    //watch监控观察
+    //我们可以采用不注入$scope方式，可以直接绑定在控制器的实例上
+    app.controller('myCtrl',function () {
+        this.name = 100;
+    });
+</script>
+</body>
+</html>
