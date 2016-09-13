@@ -10,7 +10,6 @@ Scope.prototype.$watch = function (exp,fn) {
         fn:fn,
         last:this[exp]
     });
-    console.log(this.$$watchers);
 };
 Scope.prototype.$apply = function () {
     var that = this;
@@ -27,11 +26,16 @@ Scope.prototype.$apply = function () {
 };
 var scope = new Scope();
 scope.name = 100;
+scope.age = 100;
 scope.$watch('name',function (newVal,oldVal) {
-    console.log(newVal,oldVal);
+    scope.age = Math.random();
+    console.log(scope.age);
+});
+scope.$watch('age',function () {
+    scope.name = Math.random();
+    console.log(scope.name);
 });
 scope.name = 200;
 scope.$apply();
-scope.name = 300;
-scope.$apply();
 
+//脏值检查，至少要执行两次，因为当别人的数据发生变化时，可能在其回调函数内影响了其他人的变化，此时代码执行完后之刷新了更改的值，没有管回调函数内是否有更改，在来一轮进行检查，直到没有任何一个值发生变化为止，如果循环10次后，angular认为值还在变，就报错

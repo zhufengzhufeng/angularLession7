@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body ng-controller="ctrl">
+{{one}}{{two}}
+{{total()}}
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('ctrl',function ($scope) {
+        $scope.total = function () {
+            console.log(100);
+        }
+        $scope.one  = 1;
+        $scope.$watch('one',function () {
+            $scope.two = Math.round(Math.random()*9);
+        });
+        $scope.$watch('two',function () {
+            $scope.one = Math.round(Math.random()*9);
+        });
+    });
+</script>
+</body>
+</html>
