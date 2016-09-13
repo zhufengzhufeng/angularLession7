@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" zf-model="age">
+{{age}}
+<input type="text" zf-model="name">
+{{name}}
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.run(function ($rootScope,$timeout) {
+        $rootScope.name = 100;
+        $rootScope.age  = 200;
+        $timeout(function () {
+            $rootScope.name = 600;
+        },4000)
+    });
+    app.directive('zfModel',function () {
+        return {
+            //link函数主要是链接视图和作用域的
+            link:function (scope,element,attrs) {
+                //监控输入框中的内容，
+                element[0].addEventListener('input',function () {
+                    //console.log(this.value);
+                    //name age 需要绑定在当前作用域上
+                    //console.log(attrs["zfModel"]);
+                    //如果直接获取this，指代的是原生dom
+                    scope[attrs["zfModel"]] = angular.element(this).val();
+                    //手动刷新
+                    scope.$apply();//原声方法不会触发脏值检查
+                },false);
+                //监控数据的变化，如果数据发生变化应该让视图进行改变
+                scope.$watch(attrs.zfModel,function (newVal,oldVal) {
+                    element.val(newVal);//数据发生变化就刷新视图
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>
