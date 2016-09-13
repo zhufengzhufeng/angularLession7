@@ -17,6 +17,7 @@
         <label for="password" class="control-label">密码</label>
         <input id="password" type="password" ng-model="password" class="form-control" name="password" ng-required="true" ng-pattern="/^\d+$/" ng-minlength="4" ng-maxlength="6">
     </div>
+
     <div class="alert alert-danger" ng-show="myform.password.$error.pattern">正则不匹配</div>
     <div class="alert alert-danger" ng-show="myform.password.$error.minlength||myform.password.$error.maxlength">密码长度</div>
     <div class="alert alert-danger" ng-show="myform.email.$error.required&&myform.email.$dirty">此项必填</div>
@@ -28,9 +29,7 @@
 <script src="angular.js"></script>
 <script>
     //想使用angular的表单验证，需要关闭掉h5自带的验证
-
     var app = angular.module('appModule',[]);
-
 </script>
 </body>
 </html>

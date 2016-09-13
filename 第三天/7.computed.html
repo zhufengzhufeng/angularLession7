@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="computed">
+    <input type="text" ng-model="a">
+    <select ng-model="select">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="text" ng-model="b">
+    <button ng-click="do()">点击运算</button>
+    {{total}}
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //1.provider
+
+    //angular的执行顺序 先config > run > controller
+
+    //和过滤器相似过滤器的使用 在控制器中使用filter  uppercaseFilter
+    //要配置一个服务在原有的服务的名字后面加Provider
+   /* app.config(function (myProvider) {
+        //myProvider是当前服务的一个实例
+        myProvider.currency = '￡';
+    });*/
+   //配置constant
+    app.config(function (my) {
+        //myProvider是当前服务的一个实例
+        my.currency = '￡';//在当前属性上增加一个属性
+    });
+    /*app.provider('my',function () {
+        //当我们使用这个服务的时候，会直接调用$get方法
+        //this.currency = '$';
+        this.$get = function () {
+            return  {
+                '+': (a,b)=>{return this.currency+(a+b);},
+                '-': (a,b)=>{return this.currency+(a-b);},
+                '*': (a,b)=>{return this.currency+(a*b);},
+                '/': (a,b)=>{return this.currency+(a/b);}
+            }
+        };
+        //provider是所有服务中最大的一个，provider支持配置（唯一）
+    });*/
+
+
+    //服务2  factory，在项目中这个factory是最常用的
+    /*app.factory('my',function () {
+        //factory直接返回$get后面的部分
+        this.currency = '$'; //不允许配置
+        return {
+            '+': (a,b)=>{return this.currency+(a+b);},
+            '-': (a,b)=>{return this.currency+(a-b);},
+            '*': (a,b)=>{return this.currency+(a*b);},
+            '/': (a,b)=>{return this.currency+(a/b);}
+        }
+    });*/
+
+    //服务3 service
+    /*app.service('my',function () {
+        this['+'] = (a,b)=>{return (a+b);},
+        this['-'] = (a,b)=>{return (a-b);},
+        this['*'] = (a,b)=>{return (a*b);},
+        this['/'] = (a,b)=>{return (a/b);}
+    });*/
+
+    //服务4 value
+    /*app.value('my',{
+        '+': (a,b)=>{return a+b;},
+        '-': (a,b)=>{return a-b;},
+        '*': (a,b)=>{return a*b;},
+        '/': (a,b)=>{return a/b;}
+    });*/
+
+    //服务 constant 常量 用法同value,它可以配置，配置时不需要加Provider
+    app.constant('my',{
+        '+': (a,b)=>{return a+b;},
+        '-': (a,b)=>{return a-b;},
+        '*': (a,b)=>{return a*b;},
+        '/': (a,b)=>{return a/b;}
+    });
+
+
+
+    app.controller('computed',function ($scope,my) {
+        //my就是return这个对象
+        console.log(my.currency);
+        $scope.do = function () {
+            $scope.total = my[$scope.select]($scope.a,$scope.b);
+        }
+    })
+</script>
+</body>
+</html>

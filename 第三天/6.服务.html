@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="myCtrl"></div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //1.provider
+    app.provider('my',function () {
+        //当我们使用这个服务的时候，会直接调用$get方法
+        this.$get = function () {
+            
+        }
+    });
+
+
+    app.controller('myCtrl',function ($scope,$sce,$timeout,$http) {
+        $http.get('./hello.json').success(function (data) {
+            console.log(data);
+        });
+        //服务作用提取公共内容
+        //在angular中有5种服务 1种装饰，定义的服务可以进行配置
+
+    });
+
+</script>
+</body>
+</html>
