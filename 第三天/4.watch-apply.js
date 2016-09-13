@@ -14,7 +14,8 @@ Scope.prototype.$digest = function () { //脏值检查当值发生变化时至�
         if(count==0&&dirty){
             throw new Error('10 $digest() iterations reached. Aborting!');
         }
-    }while (dirty&&count--);//当值为脏时，并且循环没有小于10次，继续检查
+    }while (dirty&&count--);
+    //当值为脏时，并且循环没有小于10次，继续检查
 };
 Scope.prototype.$watch = function (exp,fn) {
     //将每一个监听者放到数组中，以便于我们做脏值检查
@@ -53,5 +54,4 @@ scope.$watch('age',function () {
 });
 scope.name = 200;
 scope.$apply();
-
 //脏值检查，至少要执行两次，因为当别人的数据发生变化时，可能在其回调函数内影响了其他人的变化，此时代码执行完后之刷新了更改的值，没有管回调函数内是否有更改，在来一轮进行检查，直到没有任何一个值发生变化为止，如果循环10次后，angular认为值还在变，就报错
