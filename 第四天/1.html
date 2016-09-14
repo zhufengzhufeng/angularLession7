@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="myCtrl"></div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //服务5种 封装公有方法 并且服务是单例的
+    app.config(function (myProvider,$provide) {
+        //先实例化服务 myProvider是服务的实例
+        /*myProvider.config = 'zfpx';
+        console.log(1);*/
+        //装饰服务的名字
+        /*$provide.decorator('my',function ($delegate) {
+            $delegate.age = 100;
+            return $delegate
+        })*/
+        $provide.decorator('$timeout',function ($delegate) {
+            var fn = $delegate
+            $delegate = function () {
+                var args = Array.prototype.slice.call(arguments);
+                args[1] = args[1]+5000;//[fn,delay+5000,apply]
+                fn.apply(null,args);
+            }
+            return $delegate
+        });
+    });
+    /*app.provider('my',function () {
+        this.config = 'hello'; //在当前函数内定义的config属性，可以让配置函数进行配置
+        console.log(2);
+        var that = this;
+        this.$get = function () {
+            return {
+                name:1+that.config
+            }
+        }
+    });*/
+    //factory直接传入get方法
+    /*app.factory('my',function () {
+        this.config = 'hello'; //增加属性，这个属性无法配置
+        return {
+            name:1+this.config
+        }
+    });*/
+    //service 放回是一个构造函数
+    /*app.service('my',function () {
+        this.obj = 1;
+        this.name = 2;
+    });*/
+    //value
+    app.value('my',{
+        name:1
+    });
+    //constant constant可以配置
+    /*app.constant('my',{
+        name:1
+    });*/
+    //decorator 装饰，在config函数中通过$provide.decorator进行装饰
+
+    //对书的操作，在不同的页面中，操作的是同一本书，所以可以将一类方法，封装成一个服务
+    app.controller('myCtrl',function ($timeout) {
+        //my相当于实例化了provider的函数，并且调用了$get方法
+        $timeout(function () {
+            console.log(111);
+        },2000);
+    });
+</script>
+</body>
+</html>
