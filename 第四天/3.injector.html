@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.provider('my',function () {
+        this.$get = function () {
+            return {name:1}
+        }
+    });
+    var injector = angular.injector(['appModule']);
+    console.log(injector);
+    injector.invoke(function (my) {
+    });
+    //第一种 通过JQLite对象来调用inject()
+    //第二种通过全局对象 angular.injector()
+    //annotate  加注
+    var arr = injector.annotate(function (   $http   ,    $timeout   ) {
+        console.log($http);
+    });
+    console.log(arr); //推断参数的集合
+
+    //get 获取服务
+    var obj = injector.get('my');
+    console.log(obj);
+    //has 是否有服务
+    var flag = injector.has('my1');
+    console.log(flag);
+    //instantiate 实例化
+    var obj = injector.instantiate(function () {
+        this.hello = 1;
+        this.bb = 2;
+    });
+    console.log(obj);
+    //invoke 协助 调用   推断出注入的服务，并让此服务执行
+    injector.invoke(function (my) {
+        console.log(this);
+        console.log(my);
+    },1);
+
+
+
+
+</script>
+</body>
+</html>

@@ -20,13 +20,13 @@
             return $delegate
         })*/
         $provide.decorator('$timeout',function ($delegate) {
-            var fn = $delegate
+            var fn = $delegate;
             $delegate = function () {
                 var args = Array.prototype.slice.call(arguments);
                 args[1] = args[1]+5000;//[fn,delay+5000,apply]
                 fn.apply(null,args);
-            }
-            return $delegate
+            };
+            return $delegate;
         });
     });
     /*app.provider('my',function () {

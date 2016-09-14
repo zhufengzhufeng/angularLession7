@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="myCtrl"></div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.provider('my',function () {
+        this.$get = function () {
+            return {name:1}
+        }
+    });
+    app.controller('myCtrl',function (my) {
+        //手动调用服务
+        //第一种拿到注射器的方法
+        angular.element(document).injector().invoke(function (my) {
+            console.log(my);
+        })
+    });
+</script>
+</body>
+</html>
