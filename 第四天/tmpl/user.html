@@ -5,7 +5,7 @@
         <th>姓名</th>
         <th>年龄</th>
     </tr>
-    <tr ng-repeat="user in users">
+    <tr ng-repeat="user in users track by user.id">
         <td>{{user.id}}</td>
         <td>{{user.name}}</td>
         <td>{{user.age}}</td>
