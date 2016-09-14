@@ -1,4 +1,13 @@
 用户列表
-<ul>
-    <li></li>
-</ul>
+<table class="table table-bordered">
+    <tr>
+        <th>id号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+    </tr>
+    <tr ng-repeat="user in users">
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.age}}</td>
+    </tr>
+</table>
