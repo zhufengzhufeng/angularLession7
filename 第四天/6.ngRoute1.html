@@ -19,6 +19,7 @@
     var app = angular.module('appModule',['ngRoute']);
     app.config(function ($routeProvider) {
         //每个控制器 都控制自己的页面
+        //路由通过hash值得变化，跳转不同的页面
         $routeProvider.when('/',{
             templateUrl:'tmpl/index.html',
             controller:'indexCtrl'
@@ -36,12 +37,31 @@
     app.controller('indexCtrl',function ($scope) {
         $scope.who = 'zfpx';
     });
-    app.controller('userCtrl',function ($scope) {
-        $scope.users = [
+    //自定义过滤器
+    app.filter('crease',function () {
+        return function (input,start) {
+            return input+start
+        }
+    });
+    //controller， service , filter ,directive  ,main
+    app.factory('person',function () {
+        var users = [
             {id:1,name:'张三',age:30},
             {id:2,name:'李四',age:18},
             {id:3,name:'王五',age:3}
-        ]
+        ];
+        return {
+            query:function () {
+                return users;
+            }
+        }
+    });
+    app.controller('userCtrl',function ($scope,$timeout,person) {
+        $scope.flag = true;
+        $timeout(function () {
+            $scope.users = person.query();
+            $scope.flag = false;
+        },2000);
     });
     app.controller('listCtrl',function ($scope) {
     });

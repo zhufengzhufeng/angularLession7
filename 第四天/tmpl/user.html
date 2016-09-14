@@ -5,9 +5,11 @@
         <th>姓名</th>
         <th>年龄</th>
     </tr>
-    <tr ng-repeat="user in users track by user.id">
+    <!--要过滤谁，就写在谁后面-->
+    <tr ng-repeat="user in users | orderBy:'age' track by user.id ">
         <td>{{user.id}}</td>
         <td>{{user.name}}</td>
-        <td>{{user.age}}</td>
+        <td>{{user.age | crease:100}}</td>
     </tr>
 </table>
+<div ng-show="flag">页面拼命加载中</div>
