@@ -17,6 +17,17 @@
 <script src="angular-route.js"></script>
 <script>
     var app = angular.module('appModule',['ngRoute']);
+    app.run(function ($rootScope) {
+        //监听路由的变化，路由变化后发射事件，我们要监听事件
+        $rootScope.$on('$routeChangeStart',function (e,toState,fromState) {
+            //toState去哪
+            //fromState从哪里来
+            console.log(toState.$$route.originalPath);
+            console.log(toState,fromState);
+        })
+    });
+
+
     app.config(function ($routeProvider) {
         //每个控制器 都控制自己的页面
         //路由通过hash值得变化，跳转不同的页面
