@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="appModule">
+<html lang="en" ng-app="appModule" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,10 +14,11 @@
             return {name:1}
         }
     });
+
     app.controller('myCtrl',function (my) {
         //手动调用服务
         //第一种拿到注射器的方法
-        angular.element(document).injector().invoke(function (my) {
+        angular.element(document.body).injector().invoke(function (my) {
             console.log(my);
         })
     });
