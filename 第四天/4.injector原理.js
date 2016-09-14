@@ -51,7 +51,6 @@ Module.prototype.injector = function () {
     };
     //实例化方法
     injector.instantiate = function (fn) {
-        console.log(fn.prototype);
         return this.invoke(fn,fn.prototype);
     };
     return injector;
@@ -72,7 +71,6 @@ console.log(injector.has('hello1'));
 injector.invoke(function () {
     console.log(hello);
 },1);
-
 var obj = injector.instantiate(function (hello) {
     this.hello = 'zfpx';
     this.hy = '8'

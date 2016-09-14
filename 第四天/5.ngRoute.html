@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+这是文章的标题
+<ng-view></ng-view>
+<script src="angular.js"></script>
+<script src="angular-route.js"></script>
+<script>
+    //我们需要安装ng-route npm install angular-route
+    //要使用ngRoute必须要将ngRoute依赖进来，先执行依赖的内容
+    var app = angular.module('appModule',['ngRoute']);
+    //ngRoute里面自带一个服务，我们需要配置这个服务
+    app.config(function ($routeProvider) {
+        //配置的路径，第二个是路由对象
+        $routeProvider.when('/',{ //访问不同的路由显示不同的内容
+            templateUrl:'tmpl/hello.html',
+        }).when('/user',{
+            templateUrl:'tmpl/world.html',
+        }).otherwise('/');// 访问其他路径时默认显示为/路径
+    });
+    //angular主要用来开发单页应用,不跳转页面，还要拥有历史管理的功能
+
+
+    //http://localhost:63342/angularLession7/%E7%AC%AC%E5%9B%9B%E5%A4%A9/5.ngRoute.html#/
+</script>
+<!--
+    ng-route
+    ui-router
+-->
+
+</body>
+</html>
