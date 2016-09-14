@@ -8,7 +8,7 @@
     <!--要过滤谁，就写在谁后面-->
     <tr ng-repeat="user in users | orderBy:'age' track by user.id ">
         <td>{{user.id}}</td>
-        <td>{{user.name}}</td>
+        <td><a href="#/list/{{user.id}}">{{user.name}}</a></td>
         <td>{{user.age | crease:100}}</td>
     </tr>
 </table>

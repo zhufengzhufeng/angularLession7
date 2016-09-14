@@ -6,28 +6,35 @@
     <link rel="stylesheet" href="bootstrap.css">
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li class="active"><a href="#/">首页</a></li>
-    <li><a href="#/user">用户页面</a></li>
-    <li><a href="#/list">信息页面</a></li>
-    <li><a href="#/settings">设置页面</a></li>
+<ul class="nav nav-pills">
+    <li ng-class="{active:'/'==flag}"><a href="#/">首页</a></li>
+    <li ng-class="{active:'/user'==flag}"><a href="#/user">用户页面</a></li>
+    <li ng-class="{active:flag.startsWith('/list')}"><a href="#/list/1">信息页面</a></li>
+    <li ng-class="{active:'/settings'==flag}"><a href="#/settings">设置页面</a></li>
 </ul>
 <div ng-view></div>
+<footer>欢迎您的到来</footer>
 <script src="angular.js"></script>
 <script src="angular-route.js"></script>
 <script>
     var app = angular.module('appModule',['ngRoute']);
-    app.run(function ($rootScope) {
+    //不支持路由的嵌套
+    app.run(function ($rootScope,$location) {
+        $rootScope.login = false;
+        //判断如果当前用户没有登陆,跳转到首页，登陆了则正常进入
         //监听路由的变化，路由变化后发射事件，我们要监听事件
         $rootScope.$on('$routeChangeStart',function (e,toState,fromState) {
             //toState去哪
             //fromState从哪里来
-            console.log(toState.$$route.originalPath);
+            $rootScope.flag = toState.$$route.originalPath;
             console.log(toState,fromState);
-        })
+            if($rootScope.flag=='/settings'&&!$rootScope.login){
+                //跳转到首页
+                //$location 是个服务
+                $location.path('/');//window.location.href的封装
+            }
+        });
     });
-
-
     app.config(function ($routeProvider) {
         //每个控制器 都控制自己的页面
         //路由通过hash值得变化，跳转不同的页面
@@ -37,7 +44,7 @@
         }).when('/user',{
             templateUrl:'tmpl/user.html',
             controller:'userCtrl'
-        }).when('/list',{
+        }).when('/list/:aa',{ //:aa 表示匹配/list/1   {aa:1,bb:2}
             templateUrl:'tmpl/list.html',
             controller:'listCtrl'
         }).when('/settings',{
@@ -72,9 +79,11 @@
         $timeout(function () {
             $scope.users = person.query();
             $scope.flag = false;
-        },2000);
+        },400);
     });
-    app.controller('listCtrl',function ($scope) {
+    app.controller('listCtrl',function ($scope,$routeParams) {
+        $scope.id = $routeParams.aa;
+        //路由是模糊匹配的 默认路径是/list/:aa   /list/1 {aa:1}
     });
     app.controller('settingsCtrl',function ($scope) {
     });
