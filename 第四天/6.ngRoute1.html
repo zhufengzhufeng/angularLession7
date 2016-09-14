@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+<body>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#/">首页</a></li>
+    <li><a href="#/user">用户页面</a></li>
+    <li><a href="#/list">信息页面</a></li>
+    <li><a href="#/settings">设置页面</a></li>
+</ul>
+<div ng-view></div>
+<script src="angular.js"></script>
+<script src="angular-route.js"></script>
+<script>
+    var app = angular.module('appModule',['ngRoute']);
+    app.config(function ($routeProvider) {
+        //每个控制器 都控制自己的页面
+        $routeProvider.when('/',{
+            templateUrl:'tmpl/index.html',
+            controller:'indexCtrl'
+        }).when('/user',{
+            templateUrl:'tmpl/user.html',
+            controller:'userCtrl'
+        }).when('/list',{
+            templateUrl:'tmpl/list.html',
+            controller:'listCtrl'
+        }).when('/settings',{
+            templateUrl:'tmpl/settings.html',
+            controller:'settingsCtrl'
+        }).otherwise('/');//访问其他路由时，返回首页
+    });
+    app.controller('indexCtrl',function ($scope) {
+        $scope.who = 'zfpx';
+    });
+    app.controller('userCtrl',function ($scope) {
+    });
+    app.controller('listCtrl',function ($scope) {
+    });
+    app.controller('settingsCtrl',function ($scope) {
+    });
+</script>
+</body>
+</html>
