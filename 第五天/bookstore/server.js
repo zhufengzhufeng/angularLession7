@@ -20,8 +20,39 @@ http.createServer(function (req,res) {
     if(pathname == '/'){
         res.setHeader('Content-Type','text/html;charset=utf8');
         fs.createReadStream('./bookstore.html').pipe(res);
-    }else if(pathname == '/book'){
-        res.end(JSON.stringify(books));
+    }else if(/^\/book(\/\d+)?/.test(pathname)){  // /book/12
+        //正则
+        var method = req.method;
+        var matcher = pathname.match(/\/book\/(\d+)/);
+        //来判断是否传入id
+        switch (method){
+            case 'GET':
+                if(matcher){
+                    //可以获取id matcher[1]
+                    var id = matcher[1];
+                    var book = books.find(function (item) {
+                        if(item.id == id){ //当id相同时返回查到的那一项
+                            return item;
+                        }
+                    });//如果相等返回插到的那一项
+                    res.end(JSON.stringify(book));
+                }else{
+                    res.end(JSON.stringify(books));
+                }
+                break;
+        }
+
+
+
+
+
+
+
+        //如果匹配成功 判断有没有id,判断方法
+
+
+
+        //res.end(JSON.stringify(books));
     }else{
         //先判断文件是否存在，如果存在则返回文件，不存在返回404
         var flag = fs.existsSync('.'+pathname);
