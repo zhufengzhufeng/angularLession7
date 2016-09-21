@@ -27,7 +27,7 @@
         <td>{{book.count}}</td>
         <td>{{book.count*book.price}}</td>
         <td><button class="btn btn-danger" ng-click="del(book)">删除</button></td>
-        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal">
+        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal" ng-click="oneBook(book)">
             修改
         </button></td>
     </tr>
@@ -44,10 +44,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Modal title</h4>
+                <h4 class="modal-title">修改图书</h4>
             </div>
             <div class="modal-body">
-                <p>One fine body&hellip;</p>
+                图书的名字 <input type="text" ng-model="b.name">
+                图书的价格 <input type="text" ng-model="b.price">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -100,6 +101,10 @@
             book.delete(b).$promise.then(function () {
                 $scope.books = book.query(); //删除完再进行调用
             });
+        }
+        $scope.oneBook = function (b) {
+            //将b的对象克隆出一份
+            $scope.b = JSON.parse(JSON.stringify(b));
         }
     });
     /*$http.get('/book').success(function (data) { //promise对象
