@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="appModule">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
 </head>
 <body>
 欢迎进入书店管理
+<table class="table table-bordered" ng-controller="carCtrl">
+    <tr>
+        <td>书的名字</td>
+        <td>书的价格</td>
+        <td>书的数量</td>
+        <td>小计</td>
+        <td colspan="2">操作</td>
+    </tr>
+    <tr ng-repeat="book in books track by $index">
+        <td>{{book.name}}</td>
+        <td>{{book.price}}</td>
+        <td>{{book.count}}</td>
+        <td>{{book.count*book.price}}</td>
+        <td><button>删除</button></td>
+        <td><button>修改</button></td>
+    </tr>
+</table>
+<script src="angular.js"></script>
+<script src="angular-resource.js"></script>
+<script src="jquery.js"></script>
+<script src="bootstrap.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('carCtrl',function ($scope,$http) {
+        $http.get('/book').success(function (data) { //promise对象
+            $scope.books = data;
+        });
+        // /book  /remove
+    })
+</script>
 </body>
 </html>
