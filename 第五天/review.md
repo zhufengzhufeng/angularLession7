@@ -135,3 +135,8 @@ cd mydemo
 ```
 ionic serve
 ```
+
+## 安装angular-resource
+```
+npm install angular-resource
+```
