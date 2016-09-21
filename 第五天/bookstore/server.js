@@ -40,6 +40,23 @@ http.createServer(function (req,res) {
                     res.end(JSON.stringify(books));
                 }
                 break;
+            case 'DELETE':
+                if(matcher){
+                    setTimeout(function () {
+                        var id = matcher[1];
+                        books = books.filter(function (item) {
+                            return item.id!=id;
+                        });
+                        res.end(JSON.stringify({}));//删除后返回空对象
+                    },1000);
+                }else{
+                    books = [];
+                    res.end(JSON.stringify({}));
+                }
+                break;
+            case 'PUT':
+
+                break;
         }
 
 

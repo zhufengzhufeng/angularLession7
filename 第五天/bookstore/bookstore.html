@@ -5,9 +5,15 @@
     <title>Title</title>
     <link rel="stylesheet" href="bootstrap.css">
 </head>
-<body>
-欢迎进入书店管理
-<table class="table table-bordered" ng-controller="carCtrl">
+<body  ng-controller="carCtrl">
+欢迎进入书店管理 <br>
+根据id查询 <br>
+<input type="text" ng-model="query" ng-model-options="{debounce:1000}"> <br>
+<ul class="list-group">
+    <li class="list-group-item">书的名字{{book.name}}</li>
+    <li class="list-group-item">书的价格{{book.id}}</li>
+</ul>
+<table class="table table-bordered" >
     <tr>
         <td>书的名字</td>
         <td>书的价格</td>
@@ -20,10 +26,41 @@
         <td>{{book.price}}</td>
         <td>{{book.count}}</td>
         <td>{{book.count*book.price}}</td>
-        <td><button>删除</button></td>
-        <td><button>修改</button></td>
+        <td><button class="btn btn-danger" ng-click="del(book)">删除</button></td>
+        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal">
+            修改
+        </button></td>
     </tr>
 </table>
+
+
+
+
+
+
+
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
 <script src="angular.js"></script>
 <script src="angular-resource.js"></script>
 <script src="jquery.js"></script>
@@ -51,8 +88,20 @@
     });
     app.controller('carCtrl',function ($scope,$http,book) {
         $scope.books = book.query();//会默认发送get请求后面没有id
+        $scope.book = {};
+        $scope.$watch('query',function (newVal,oldVal) {
+            //query变化后，根据变换的值查询对应的数据，绑定在页面上
+            if(newVal){
+                $scope.book =  book.get({id:newVal});
+            }
+        });
+        $scope.del = function (b) {
+           // 删除某一个需要传入id，他会自动寻找那一项拼在/book/id；
+            book.delete(b).$promise.then(function () {
+                $scope.books = book.query(); //删除完再进行调用
+            });
+        }
     });
-
     /*$http.get('/book').success(function (data) { //promise对象
      $scope.books = data;
      });*/
