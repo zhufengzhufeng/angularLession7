@@ -55,7 +55,28 @@ http.createServer(function (req,res) {
                 }
                 break;
             case 'PUT':
+                if(matcher){
+                    var id = matcher[1];
+                    //获取请求体中的内容
+                    var result = '';
+                    req.on('data',function (data) {
+                        result+=data;
+                    });
+                    req.on('end',function () {
+                        var newBook = JSON.parse(result);
+                        //用新书替换旧书
+                        books = books.map(function (item) {
+                            if(item.id == id){
+                                return newBook;
+                            }
+                            return item;
+                        });
+                        //修改后返回修改的对象
+                        res.end(JSON.stringify(newBook));
+                    });
+                }else{
 
+                }
                 break;
         }
 

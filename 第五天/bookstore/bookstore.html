@@ -52,7 +52,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" ng-click="update(b)">Save changes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -105,6 +105,21 @@
         $scope.oneBook = function (b) {
             //将b的对象克隆出一份
             $scope.b = JSON.parse(JSON.stringify(b));
+        }
+        $scope.update = function (b) {
+            //通过id修改内容，b放在请求体中
+            book.update({id:b.id},b).$promise.then(function (data) {
+                //将所有书的id拿到进行和后台响应的id比较如果相等，则用最新的覆盖掉老的
+                $scope.books = $scope.books.map(function (item) {
+                    if(item.id == data.id){ //如果id相同
+                        return data; //用后台返回的新数据，覆盖掉旧的数据
+                    }
+                    return item;
+                });
+                //修改后将模态框隐藏
+                $('.modal').modal('hide');
+                //$scope.books = book.query();
+            });//修改必须要手动传入id，告诉服务端通过id进行查询
         }
     });
     /*$http.get('/book').success(function (data) { //promise对象
