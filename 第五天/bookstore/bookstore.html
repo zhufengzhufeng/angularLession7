@@ -29,13 +29,37 @@
 <script src="jquery.js"></script>
 <script src="bootstrap.js"></script>
 <script>
-    var app = angular.module('appModule',[]);
-    app.controller('carCtrl',function ($scope,$http) {
-        $http.get('/book').success(function (data) { //promise对象
-            $scope.books = data;
+    var app = angular.module('appModule',['ngResource']);
+
+    /*'get': {method: 'GET'}, get是获取一个数据 {}
+    'save': {method: 'POST'}, 保存
+    'query': {method: 'GET', isArray: true}, 查询所有
+    'remove': {method: 'DELETE'}, 删除
+    'delete': {method: 'DELETE'}
+    update:{method:'put'}
+    */
+    //GET /book
+    //GET /book?id=1 /book/1
+    //DELETE /book/1
+    //PUT /book/1
+    app.factory('book',function ($resource) {
+        return $resource('/book/:id',null,{
+            update:{
+                method:'PUT'
+            }
         });
-        // /book  /remove
-    })
+    });
+    app.controller('carCtrl',function ($scope,$http,book) {
+        $scope.books = book.query();//会默认发送get请求后面没有id
+    });
+
+
+
+    /*$http.get('/book').success(function (data) { //promise对象
+     $scope.books = data;
+     });*/
+    // /book  /remove
+    //RESTful  通过方法名发送不同的请求并且路径相同
 </script>
 </body>
 </html>
