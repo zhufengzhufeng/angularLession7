@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ 'aaaa' | sss:2}}
+<input type="text" ng-model="query" ng-model-options="{updateOn:'blur'}">
+<div ng-controller="myCtrl">
+    <div ng-repeat="a in arr | filter:{age:query}" >
+        {{a.name}}{{a.age}}
+    </div>
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.filter('sss',function () {
+        return function (data,len) {
+            return data.slice(0,data.length-len)+data.slice(-len).toUpperCase()
+        }
+    });
+    app.controller('myCtrl',function ($scope,$filter) {
+       // var result = sssFilter('aaaa',2);
+        //可以直接注入$filter 不用依次注入
+        var result = $filter('lowercase')('aaaaa');
+        console.log(result);
+        $scope.arr = [
+            {name:1,age:7},
+            {name:2,age:1},
+            {name:3,age:9},
+        ]
+    })
+</script>
+</body>
+</html>

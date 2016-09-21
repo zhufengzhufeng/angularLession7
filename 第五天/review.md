@@ -1,6 +1,4 @@
 ## bower
-
-
 ## ng-app
 - 指定启动的模块，并且创建一个模块，让这个模块作为主模块，并且启动angular
 ## ng-model
@@ -48,46 +46,92 @@
     - 不依赖于控制器
     - 不产生独立作用域
 ## 指令中的template
-
 ## 指令中的link
-
 ## 指令中的scope&=@
-
 ## 指令中的compile
-
 ## 指令间的交互
-
+- 父级需要添加controller，子集需要require ^当前没有去上面找，找不到报错，引用后link函数中多了第4个参数为控制器实例 ?^找不到就不报错了
 ## 过滤器
-
+- uppercase lowercase date json orderby limitTo number filter
 ## 自定义过滤器
-
+- 可以自己定义过滤规则，实现过滤数据，用法在要格式化的数据后增加|来格式化数据
 ## 在控制函数中使用过滤器
-
+- 在过滤器的名字后加Filter，或者直接注入$filter服务
 ## ng-model-options
-
-## ng-class
-
+- 可以限制数据更新时间{updateOn:'blur'}{debounce:2000}
+## ng-class/ng-style
+- 根据数据动态绑定class
+- {true:'',false:''}[flag]
+- {'样式名':'是否应用'}
 ## $watch $apply
-
+- $watch监控数据变化，可以自己增加观察者$scope.$watch
+- $apply应用，强制让angular做脏值检查，如果angular自带的不需要调用apply
 ## $timeout/$interval
-
+- angular自己封装的定时器
 ## $interval.cancel
-
+- 取消定时器
 ## validate
-
+- 使用angular的验证，要先关闭h5验证，并且给需要验证的内容增加name和ng-model, 并且给form表单增加name属性
 ## angular中的服务
-
+- provider 可配置，自动调用$get方法,配置时要增加Provider在config函数中配置，在config之前执行
+- factory 直接返回$get的函数
+- service 是factory返回的对象的构造函数
+- value key value形式，直接是factory返回的对象
+- constant 可配置 简单的key value
 ## config函数
-
+- 用来配置服务的，在run方法前执行
 ## angular中的装饰
-
-## angular中的事件
-
+- 在config函数中注入$provide.decorator
+## 控制器交互的事件
+- $broadcast $emit (自己都能监控到变化) $on监听事件从
+```
+$scope.$on('事件的名字',function(e,data){
+    //e表示事件源
+})
+```
 ## angular中的注射器
-
+- 推断参数
+```
+injector().annonate()
+```
+- 获得服务
+```
+injector().get('服务的名字')
+```
+- 是否有服务
+```
+injector().has('服务的名字')
+```
+- 实例化函数
+```
+injector().instanite(function)
+```
+- invoke获得服务并且执行
+```
+injector().invoke(function)
+```
 ## ng-route的使用
-
-
-## ng-switch
 ## ng-href
 ## ng-src
+
+
+
+
+## 切换到cnpm
+```
+nrm use cnpm
+```
+## 安装ionic cordova
+```
+npm install ionic cordova -g 
+```
+## 在目录下
+- 初始化项目 
+```
+ionic start mydemo
+cd mydemo
+```
+## 运行项目
+```
+ionic serve
+```

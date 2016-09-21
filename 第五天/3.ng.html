@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="my" >
+    <!--此时angular还没有加载。产生404，等待数据完成在加载图片-->
+    <img ng-src="{{src}}" alt="">
+    <!--ng-src中的内容必须为取出的字符串-->
+    <a ng-href="{{href}}">goBd</a>
+    <!--防止连接是空连接，导致页面跳转-->
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('my',function ($scope,$timeout) {
+        $scope.src = 'http://img0.bdstatic.com/img/image/zhengjiuwxr.jpg';
+        $timeout(function () {
+            $scope.href = 'http://www.baidu.com'
+        },3000)
+    });
+</script>
+</body>
+</html>
