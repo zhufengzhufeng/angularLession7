@@ -78,6 +78,9 @@ http.createServer(function (req,res) {
 
                 }
                 break;
+            case 'POST':
+                //增加图书
+                break;
         }
 
 
