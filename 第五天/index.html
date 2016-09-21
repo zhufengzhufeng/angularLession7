@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .red{background: red}
+    </style>
+</head>
+<body>
+<div ng-controller="myCtrl">
+    <div ng-cloak>
+        <input type="text" ng-model="name">
+        {{name}}
+        <div ng-bind="name?name:'zf'"></div>
+        <div ng-bind-template="{{name}} {{age}}"></div>
+    </div>
+    <style>
+        [ng-cloak]{
+            display: none;
+        }
+    </style>
+    <div ng-repeat="(key,value) in obj">
+        {{key}}{{value}}
+    </div>
+    <div ng-repeat="(key,value) in arr track by $index">
+        <li ng-class="{red:$even}">
+            {{value.name}}{{value.age}} {{key}}{{$index}} {{$even}} {{$odd}}
+        </li>
+        <input type="text" ng-copy="copy()">
+        <input type="text" ng-paste="paste()">
+        <input type="text" ng-cut="cut()">
+    </div>
+    <div ng-bind-html="html"></div>
+
+    <select ng-model="a" ng-options="option.id as option.name for option in options">
+    <option value="">请选则</option>
+</select>
+</div>
+<script src="angular.js"></script>
+<script>
+    //param1模块的名字
+    //paran2依赖的模块
+    //param3配置函数
+    var app = angular.module('appModule',[]);
+    app.run(function ($rootScope) {
+            //run方法，会在ng-app启动后执行
+    });
+    app.controller('myCtrl',['$scope','$sce',function ($scope,$sce) {
+        //创建控制器要使用在dom上，会执行控制器
+        $scope.name = 'hello';
+
+        $scope.obj = {
+            name:'zfpx',
+            age:8
+        }
+        $scope.arr = [
+            {name:'zfpx',age:8},
+            {name:'zfpx',age:8},
+            {name:'zfpx',age:8},
+            {name:'zfpx',age:8},
+        ]
+        $scope.html =  $sce.trustAsHtml( '<h1>hello </h1>');
+        $scope.copy = function () {
+            alert('不能拷贝');
+        };
+        $scope.cut = function () {
+            alert('cut');
+        };
+        $scope.paste = function () {
+            alert('paste');
+        };
+        $scope.options = [
+            {name:'nodejs',id:1},
+            {name:'nodejs1',id:2},
+            {name:'nodejs2',id:3},
+            {name:'nodejs3',id:4},
+            {name:'nodejs4',id:5},
+        ]
+    }]);
+
+</script>
+</body>
+</html>

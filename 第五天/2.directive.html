@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body ng-controller="my">
+<my-text name="nihao" a="age" s="say(who)">你好</my-text>
+<script src="angular.js"></script>
+<script >
+    var app  = angular.module('appModule',[]);
+    //默认指令不会产生独立作用域
+    app.controller('my',function ($scope) {
+$scope.age = '8';
+        $scope.say = function (who) {
+            alert(who)
+        }
+    })
+    app.directive('myText',function () {
+        return {
+            //限制指令使用范围
+            restrict:'ECMA',
+            replace:true,//模板，使用唯一的根元素
+            template:`
+            <div>
+                    <div >{{name}}{{age}}<span ng-transclude></span> <button ng-click="say({who:name})"></button></div>
+                    <div></div>
+            </div>
+            `,
+            //transclude,将内容插入到标签内
+            transclude:true,
+            link:function (scope,element,attrs) {
+                //scope当前作用域
+                //element jq对象
+                //attrs 当前指令的属性
+                //连接dom和当前作用域的，
+                //compile 返回的是link函数，只要用来编译模板
+            },
+            //scope {}完全和外界断绝关系
+            scope:{
+                name:'@',//在当前作用域下声明name 单项
+                age:'=a',//绑定的是变量，双向绑定
+                say:'&s'
+            }
+        }
+    })
+</script>
+</body>
+</html>
