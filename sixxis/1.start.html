@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="public/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<!--通过ui-sref进行路径跳转-->
+<ul class="nav nav-pills">
+    <li><a ui-sref="index">首页</a></li>
+    <li><a ui-sref="user">用户页</a></li>
+    <li><a ui-sref="list">列表页面</a></li>
+</ul>
+
+
+
+<div ui-view></div>
+<script src="public/angular/angular.js"></script>
+<script src="public/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="controller.js"></script>
+<script>
+    //ngRouter $routeProvider
+    //uiRouter $stateProvider 是uirouter自带服务，我们想使用这个服务
+    var app = angular.module('appModule',['ui.router','ctrl']);
+    //$urlRouterProvider 唯一使用的就是ohterwise
+    app.config(function ($stateProvider,$urlRouterProvider) {
+        //名字&定义
+        $stateProvider.state('index',{ //代表这条路径的名字,做自动跳转，跳转到哪个名字上
+            url:'/index', //当前名字所对应的路由
+            template:'<div>首页{{list}}</div>',
+            controller:'indexCtrl'//指定控制器的名字
+        }).state('user',{
+            url:'/user',
+            templateUrl:'tmpl/user.html'
+        }).state('user.look',{ //路径是先渲染/user/look
+            url:'/look',
+            templateUrl:'tmpl/lookMoney.html'
+        }).state('user.personal',{ //路径是先渲染/user/look
+            url:'/personal',
+            templateUrl:'tmpl/personalAcount.html'
+        }).state('user.info',{ //路径是先渲染/user/look
+            url:'/info',
+            templateUrl:'tmpl/userInfo.html'
+        }).state('user.password',{ //路径是先渲染/user/look
+            url:'/password',
+            templateUrl:'tmpl/updatePassword.html'
+        }).state('list',{
+            url:'/list',
+            template:'<div>列表页面</div>'
+        });
+        $urlRouterProvider.otherwise('index');
+    });
+
+
+</script>
+</body>
+</html>
