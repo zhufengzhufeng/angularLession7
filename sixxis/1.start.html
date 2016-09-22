@@ -35,10 +35,29 @@
             templateUrl:'tmpl/user.html'
         }).state('user.look',{ //路径是先渲染/user/look
             url:'/look',
-            templateUrl:'tmpl/lookMoney.html'
+            views:{
+                '':{ //默认''为自己的模板
+                    templateUrl:'tmpl/lookMoney.html',
+                },
+                'header@user.look':{ //自己模板下引用的模板用@
+                    templateUrl:'tmpl/header.html'
+                },
+                'footer@user.look':{
+                    templateUrl:'tmpl/footer.html'
+                }
+            }
+            //templateUrl:'tmpl/lookMoney.html'
         }).state('user.personal',{ //路径是先渲染/user/look
             url:'/personal',
-            templateUrl:'tmpl/personalAcount.html'
+            views:{
+                '':{
+                    templateUrl:'tmpl/personalAcount.html'
+                },
+                'header@user.personal':{
+                    templateUrl:'tmpl/header.html'
+                }
+            }
+
         }).state('user.info',{ //路径是先渲染/user/look
             url:'/info',
             templateUrl:'tmpl/userInfo.html'
