@@ -10,7 +10,7 @@
 <ul class="nav nav-pills">
     <li><a ui-sref="index">首页</a></li>
     <li><a ui-sref="user">用户页</a></li>
-    <li><a ui-sref="list">列表页面</a></li>
+    <li><a ui-sref="list">用户详细信息页面</a></li>
 </ul>
 
 
@@ -60,13 +60,31 @@
 
         }).state('user.info',{ //路径是先渲染/user/look
             url:'/info',
-            templateUrl:'tmpl/userInfo.html'
+            templateUrl:'tmpl/userInfo.html',
+            resolve:{ //是路由中的服务 ，在数据获取后再展示页面
+                getDate:function ($q) { //$q  promise
+                    var deffer = $q.defer(); //创建一个延迟对象
+                    //成功
+                    setTimeout(function () {
+                        deffer.resolve([ //成功后调用
+                            {name:'张三',age:18,id:1},
+                            {name:'李四',age:328,id:2},
+                            {name:'王五',age:38,id:3},
+                            {name:'找刘',age:58,id:4},
+                        ]); //如果不调用resolve路由是不会跳转的，目的防止用户看到未有数据前的效果
+                    },300);
+                    //失败
+                    return deffer.promise; //返回promise 对象
+                }
+            },
+            controller:'infoCtrl'
         }).state('user.password',{ //路径是先渲染/user/look
             url:'/password',
             templateUrl:'tmpl/updatePassword.html'
         }).state('list',{
-            url:'/list',
-            template:'<div>列表页面</div>'
+            url:'/list/:id', //{id:3}
+            template:'<div>列表页面</div> {{id}}',//$stateParams
+            controller:'listCtrl'
         });
         $urlRouterProvider.otherwise('index');
     });

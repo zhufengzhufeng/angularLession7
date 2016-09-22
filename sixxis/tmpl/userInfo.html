@@ -1,1 +1,8 @@
 用户信息
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="user in users track by $index">
+        <a ui-sref="list({id:user.id})">{{user.name}} {{user.age}}</a>
+    </li>
+</ul>
+
+
