@@ -11,6 +11,7 @@
     <li><a ui-sref="index">首页</a></li>
     <li><a ui-sref="user">用户页</a></li>
     <li><a ui-sref="list">用户详细信息页面</a></li>
+    <li><a ui-sref="settings">设置</a></li>
 </ul>
 
 
@@ -24,6 +25,15 @@
     //uiRouter $stateProvider 是uirouter自带服务，我们想使用这个服务
     var app = angular.module('appModule',['ui.router','ctrl']);
     //$urlRouterProvider 唯一使用的就是ohterwise
+    app.run(function ($rootScope) {
+        $rootScope.$on('$stateChangeStart',function (e,toState,toParams,fromState,fromParams) {
+            //如果点的是设置，谈个框
+            if(toState.name == 'settings'){
+                alert('true')
+            }
+            console.log(toState,toParams,fromState,fromParams);
+        })
+    });
     app.config(function ($stateProvider,$urlRouterProvider) {
         //名字&定义
         $stateProvider.state('index',{ //代表这条路径的名字,做自动跳转，跳转到哪个名字上
@@ -83,11 +93,49 @@
             templateUrl:'tmpl/updatePassword.html'
         }).state('list',{
             url:'/list/:id', //{id:3}
-            template:'<div>列表页面</div> {{id}}',//$stateParams
+            template:`<div>列表页面</div> {{id}}
+
+               <button ng-click="goIndex()"></button>
+
+            `,//$stateParams
             controller:'listCtrl'
+        }).state('settings',{ //控制权限
+            url:'/settings',
+            needLogin:true, //自定义属性
+            template:`<div>设置</div>`,//$stateParams
         });
         $urlRouterProvider.otherwise('index');
     });
+
+    //使用ui-router 模块
+    //引用第三方模块 ['ui-router'];
+    //使用服务 stateProvider $urlRouteProvider
+    /*
+     stateProvider.state(routeName.{
+        url:'/user/:id/:name/:address',
+        //自定义属性
+        resolve：'',
+        views:{
+            '':{
+                 templateUrl:''
+                 controller:''
+            },
+            'name@routeName'
+        }
+     })
+     ui-sref="routeName({id:1,name:2,address:3})"
+     $state.go(routeName,{id:1,name:2,address:3})
+     监听路由变化
+     $rootScope.$on('$stateChangeStart',function(e,toState,toParams,fromState,fromParams){
+
+     })
+    *
+     */
+
+    //ngAnimate  ngValidate
+
+
+
 
 
 </script>
